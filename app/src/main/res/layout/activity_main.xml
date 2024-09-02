@@ -7,15 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <TextClock
+        android:id="@+id/clock_hours_minutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/clock_time"
-        android:textSize="80sp"
+        android:format12Hour="hh:mm"
+        android:format24Hour="hh:mm"
+        android:text="00:00"
+        android:textSize="90sp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextClock
+        android:id="@+id/clock_seconds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:format12Hour="ss"
+        android:format24Hour="ss"
+        android:text="00"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@id/clock_hours_minutes"
+        app:layout_constraintTop_toTopOf="@id/clock_hours_minutes"
+        app:layout_constraintBottom_toBottomOf="@id/clock_hours_minutes"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
