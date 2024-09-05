@@ -1,0 +1,16 @@
+<!-- res/menu/bottom_nav_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_chronometer"
+        android:icon="@drawable/timer"
+        android:title="Chronometer" />
+    <item
+        android:id="@+id/action_timer"
+        android:icon="@drawable/timer_sand"
+        android:title="Timer" />
+    <item
+        android:id="@+id/action_clock"
+        android:icon="@drawable/clock_time"
+        android:title="Clock" />
+
+</menu>

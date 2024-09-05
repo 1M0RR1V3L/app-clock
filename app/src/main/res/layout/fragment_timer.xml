@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/start_timer_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:icon="@drawable/play"
+        />
+
+    <Button
+        android:id="@+id/pause_timer_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pause"
+        android:layout_below="@id/start_timer_button"
+        android:icon="@drawable/pause"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/stop_timer_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:layout_below="@id/pause_timer_button"
+        android:icon="@drawable/stop"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/timer_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:layout_below="@id/stop_timer_button"
+        android:layout_marginTop="16dp"/>
+
+</RelativeLayout>

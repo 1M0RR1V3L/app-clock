@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <!-- Horas e Minutos lado a lado -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/chronometer_hours_minutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="90sp"
+            android:textColor="@android:color/black"/>
+
+        <!-- Espaço entre horas e minutos e os segundos -->
+        <View
+            android:layout_width="16dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/chronometer_seconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+
+    <!-- Milissegundos abaixo de segundos -->
+    <TextView
+        android:id="@+id/chronometer_milliseconds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="4dp" />
+
+    <!-- Botões de controle -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <ImageButton
+            android:id="@+id/button_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/play"
+            android:contentDescription="@string/play" />
+
+        <ImageButton
+            android:id="@+id/button_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pause"
+            android:contentDescription="@string/pause" />
+
+        <ImageButton
+            android:id="@+id/button_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/stop"
+            android:contentDescription="@string/stop" />
+    </LinearLayout>
+</LinearLayout>
