@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Clock"
         tools:targetApi="31">
-
+        <activity
+            android:name=".TimerActivity"
+            android:exported="false" />
         <!-- Declaração do serviço TimerService -->
         <service
             android:name=".service.TimerService"
@@ -28,6 +30,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

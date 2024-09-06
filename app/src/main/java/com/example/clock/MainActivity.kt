@@ -1,5 +1,6 @@
 package com.example.clock
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
@@ -11,7 +12,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.clock.fragments.ChronometerFragment
 import com.example.clock.fragments.ClockFragment
-import com.example.clock.fragments.TimerFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-// Fullscreen
+        // Fullscreen
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.apply {
                 hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
@@ -45,22 +45,34 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-
-        // Configura o BottomNavigationView
+        // Configurar o BottomNavigationView
         bottomNavigationView.setOnItemSelectedListener { item ->
-            val fragment: Fragment = when (item.itemId) {
-                R.id.action_timer -> TimerFragment()
-                R.id.action_chronometer -> ChronometerFragment()
-                R.id.action_clock -> ClockFragment()
-                else -> ClockFragment()  // Default case, shouldn't be reached
+            when (item.itemId) {
+                R.id.action_timer -> {
+                    // Inicia a TimerActivity ao invés do TimerFragment
+                    val intent = Intent(this, TimerActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.action_chronometer -> {
+                    val fragment = ChronometerFragment()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit()
+                    true
+                }
+                R.id.action_clock -> {
+                    val fragment = ClockFragment()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit()
+                    true
+                }
+                else -> false
             }
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
-            true
         }
 
-        // Exibe o fragmento inicial
+        // Exibir o fragmento inicial
         if (savedInstanceState == null) {
             bottomNavigationView.selectedItemId = R.id.action_clock  // Define o item selecionado
             supportFragmentManager.beginTransaction()
