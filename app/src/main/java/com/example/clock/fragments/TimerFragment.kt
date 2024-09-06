@@ -1,10 +1,12 @@
 package com.example.clock.fragments
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
+import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,13 +25,29 @@ class TimerFragment : Fragment() {
 
     private var isRunning = false
     private var timeInSeconds = 0
-    private val handler = Handler(Looper.getMainLooper())
+    private val handler = Handler()
+    private var timerService: TimerService? = null
+    private var isBound = false
+
+    private val connection = object : ServiceConnection {
+    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+        val binder = service as TimerService.TimerBinder
+        timerService = binder.getService()
+        isBound = true
+    }
+
+    override fun onServiceDisconnected(name: ComponentName?) {
+        timerService = null
+        isBound = false
+    }
+}
+
     private val runnable = object : Runnable {
         override fun run() {
             if (isRunning) {
                 timeInSeconds++
                 updateTimerText()
-                handler.postDelayed(this, 1000) // Atualiza a cada segundo
+                handler.postDelayed(this, 1000)
             }
         }
     }
@@ -45,23 +63,53 @@ class TimerFragment : Fragment() {
         pauseButton = view.findViewById(R.id.pause_timer_button)
         stopButton = view.findViewById(R.id.stop_timer_button)
 
-        playButton.setOnClickListener { startTimer() }
-        pauseButton.setOnClickListener { pauseTimer() }
-        stopButton.setOnClickListener { stopTimer() }
+        // Restaurar estado salvo
+        if (savedInstanceState != null) {
+            timeInSeconds = savedInstanceState.getInt("timeInSeconds", 0)
+            isRunning = savedInstanceState.getBoolean("isRunning", false)
+
+            // Se o temporizador estava rodando antes de salvar, continua após restaurar
+            if (isRunning) {
+                handler.post(runnable)
+            }
+        }
+
+        playButton.setOnClickListener {
+            startTimer()
+        }
+
+        pauseButton.setOnClickListener {
+            pauseTimer()
+        }
+
+        stopButton.setOnClickListener {
+            stopTimer()
+        }
 
         return view
     }
 
     override fun onStart() {
         super.onStart()
-        val serviceIntent = Intent(activity, TimerService::class.java)
-        activity?.startService(serviceIntent)
+        val intent = Intent(context, TimerService::class.java)
+        requireActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE)
     }
 
     override fun onStop() {
         super.onStop()
-        val serviceIntent = Intent(activity, TimerService::class.java)
-        activity?.stopService(serviceIntent)
+        if (isBound) {
+            requireActivity().unbindService(connection)
+            isBound = false
+        }
+    }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        // Salva o estado atual do temporizador
+        outState.putInt("timeInSeconds", timeInSeconds)
+        outState.putBoolean("isRunning", isRunning)
     }
 
     private fun startTimer() {
@@ -73,11 +121,13 @@ class TimerFragment : Fragment() {
 
     private fun pauseTimer() {
         isRunning = false
+        handler.removeCallbacks(runnable)
     }
 
     private fun stopTimer() {
         isRunning = false
         timeInSeconds = 0
+        handler.removeCallbacks(runnable)
         updateTimerText()
     }
 

@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.os.Binder
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
@@ -24,9 +25,11 @@ class TimerService : Service() {
     private val updateRunnable = object : Runnable {
         override fun run() {
             updateTimer()
-            handler.postDelayed(this, 1000) // Atualiza a cada segundo
+            handler.postDelayed(this, 500) // Atualiza a cada meio segundo
         }
     }
+
+    private val binder = TimerBinder()
 
     override fun onCreate() {
         super.onCreate()
@@ -51,7 +54,7 @@ class TimerService : Service() {
     }
 
     override fun onBind(intent: Intent?): IBinder? {
-        return null
+        return binder
     }
 
     private fun createNotification(contentText: String): Notification {
@@ -87,4 +90,9 @@ class TimerService : Service() {
         val notification = createNotification("Timer running: $timeText")
         startForeground(notificationId, notification)
     }
+
+    inner class TimerBinder : Binder() {
+        fun getService(): TimerService = this@TimerService
+    }
+
 }
