@@ -2,70 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
-    android:gravity="center">
+    android:padding="16dp">
 
-    <!-- Horas e Minutos lado a lado -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/chronometer_hours_minutes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="90sp"
-            android:textColor="@android:color/black"/>
-
-        <!-- Espaço entre horas e minutos e os segundos -->
-        <View
-            android:layout_width="16dp"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/chronometer_seconds"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textColor="@android:color/black"/>
-    </LinearLayout>
-
-    <!-- Milissegundos abaixo de segundos -->
     <TextView
-        android:id="@+id/chronometer_milliseconds"
+        android:id="@+id/chronometer_minutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="4dp" />
+        android:textSize="90sp"
+        android:text="00:00"
+        android:gravity="center" />
 
-    <!-- Botões de controle -->
+    <!-- Botões de controle do Chronometer (Play, Pause, Stop) -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:gravity="center"
+        android:layout_marginTop="32dp">
 
         <ImageButton
             android:id="@+id/button_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/play"
-            android:contentDescription="@string/play" />
+            android:contentDescription="Play"
+            android:layout_margin="8dp" />
 
         <ImageButton
             android:id="@+id/button_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/pause"
-            android:contentDescription="@string/pause" />
+            android:contentDescription="Pause"
+            android:layout_margin="8dp" />
 
         <ImageButton
             android:id="@+id/button_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/stop"
-            android:contentDescription="@string/stop" />
+            android:contentDescription="Stop"
+            android:layout_margin="8dp" />
+
     </LinearLayout>
 </LinearLayout>

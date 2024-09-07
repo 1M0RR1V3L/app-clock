@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <Button
-        android:id="@+id/start_timer_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play"
-        android:icon="@drawable/play"
-        />
-
-    <Button
-        android:id="@+id/pause_timer_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pause"
-        android:layout_below="@id/start_timer_button"
-        android:icon="@drawable/pause"
-        android:layout_marginTop="16dp"/>
-
-    <Button
-        android:id="@+id/stop_timer_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stop"
-        android:layout_below="@id/pause_timer_button"
-        android:icon="@drawable/stop"
-        android:layout_marginTop="16dp"/>
-
+    <!-- TextView para entrada e exibição do tempo -->
     <TextView
-        android:id="@+id/timer_text_view"
+        android:id="@+id/timer_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="90sp"
         android:text="00:00"
-        android:layout_below="@id/stop_timer_button"
-        android:layout_marginTop="16dp"/>
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true" />
 
-</RelativeLayout>
+    <!-- Botões de controle do Timer (Play, Pause, Stop) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="32dp">
+
+        <ImageButton
+            android:id="@+id/button_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/play"
+            android:contentDescription="Play"
+            android:layout_margin="8dp" />
+
+        <ImageButton
+            android:id="@+id/button_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pause"
+            android:contentDescription="Pause"
+            android:layout_margin="8dp" />
+
+        <ImageButton
+            android:id="@+id/button_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/stop"
+            android:contentDescription="Stop"
+            android:layout_margin="8dp" />
+    </LinearLayout>
+</LinearLayout>

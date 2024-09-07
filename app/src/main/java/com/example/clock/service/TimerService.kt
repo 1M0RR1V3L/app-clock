@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.Binder
 import android.os.Build
@@ -37,14 +38,9 @@ class TimerService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (startTime == 0L) {
-            startTime = SystemClock.elapsedRealtime()
-        }
-
         val notification = createNotification("Timer is running")
         startForeground(notificationId, notification)
         handler.post(updateRunnable)
-
         return START_STICKY
     }
 
@@ -71,28 +67,53 @@ class TimerService : Service() {
     }
 
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId,
-                "Timer Service Channel",
-                NotificationManager.IMPORTANCE_LOW
-            )
-            val manager = getSystemService(NotificationManager::class.java)
-            manager.createNotificationChannel(channel)
-        }
+        val channel = NotificationChannel(
+            channelId,
+            "Timer Service Channel",
+            NotificationManager.IMPORTANCE_LOW
+        )
+        val manager = getSystemService(NotificationManager::class.java)
+        manager.createNotificationChannel(channel)
     }
 
     private fun updateTimer() {
         elapsedTime = SystemClock.elapsedRealtime() - startTime
-        val minutes = (elapsedTime / 60000).toInt()
-        val seconds = ((elapsedTime % 60000) / 1000).toInt()
-        val timeText = String.format("%02d:%02d", minutes, seconds)
-        val notification = createNotification("Timer running: $timeText")
-        startForeground(notificationId, notification)
+        saveElapsedTime(elapsedTime)
+        val intent = Intent("TIMER_UPDATED")
+        intent.putExtra("elapsedTime", elapsedTime)
+        sendBroadcast(intent)
+    }
+
+    private fun saveElapsedTime(time: Long) {
+        val sharedPreferences = getSharedPreferences("TimerPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putLong("elapsedTime", time)
+        editor.apply()
+    }
+
+    fun startTimer(timeInMillis: Long) {
+        startTime = SystemClock.elapsedRealtime() - (elapsedTime - timeInMillis)
+        handler.post(updateRunnable)
+    }
+
+    fun pauseTimer() {
+        handler.removeCallbacks(updateRunnable)
+    }
+
+    fun stopTimer() {
+        handler.removeCallbacks(updateRunnable)
+        elapsedTime = 0
+        saveElapsedTime(elapsedTime)
+        val intent = Intent("TIMER_UPDATED")
+        intent.putExtra("elapsedTime", elapsedTime)
+        sendBroadcast(intent)
+    }
+
+    fun getElapsedTime(): Long {
+        return elapsedTime
     }
 
     inner class TimerBinder : Binder() {
         fun getService(): TimerService = this@TimerService
     }
-
 }
