@@ -2,4 +2,8 @@
 <resources>
     <string name="app_name">1m0rr1v3l/clock</string>
     <string name="clock_time">Olá Mundo!</string>
+    <string name="battery_level">Nivel da Bateria: %d%%</string>
+    <string name="play">inicia</string>
+    <string name="pause">pausar</string>
+    <string name="stop">parar</string>
 </resources>
